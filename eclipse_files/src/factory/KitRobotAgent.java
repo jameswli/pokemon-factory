@@ -268,8 +268,8 @@ public class KitRobotAgent extends Agent implements KitRobot {
 	 * GUI Hack to set the reference to this class' gui component
 	 * @param gc the gui representation of kit robot
 	 */
-	public void setGraphicalRepresentation(KitRobotGraphics gkr) {
-		this.kitrobotGraphics = gkr;
+	public void setGraphicalRepresentation(KitRobotGraphics krg) {
+		this.kitrobotGraphics = krg;
 		stateChanged();
 	}
 
