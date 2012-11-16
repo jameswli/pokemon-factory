@@ -9,8 +9,8 @@ import DeviceGraphics.DeviceGraphics;
 import GraphicsInterfaces.NestGraphics;
 import Utils.Constants;
 import agent.data.Part;
-import factory.PartType;
 import agent.interfaces.Nest;
+import factory.PartType;
 
 /**
  * Nests hold parts
@@ -18,14 +18,16 @@ import agent.interfaces.Nest;
  */
 public class NestAgent extends Agent implements Nest {
 
-	public List<PartType> requestList = Collections.synchronizedList(new ArrayList<PartType>());
+	public List<PartType> requestList = Collections
+			.synchronizedList(new ArrayList<PartType>());
 	PartType currentPartType;
-	public List<MyPart> currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
+	public List<MyPart> currentParts = Collections
+			.synchronizedList(new ArrayList<MyPart>());
 	public int count = 0;
 	public int countRequest = 0;
 	int full = 9;
 	public boolean takingParts = false;
-	
+
 	public NestGraphics nestGraphics;
 
 	public Semaphore animation = new Semaphore(0, true);
@@ -59,9 +61,11 @@ public class NestAgent extends Agent implements Nest {
 	@Override
 	public void msgHereIsPartType(PartType type) {
 		print("Received msgHereIsPartType");
-		if(currentPartType != type) {
-			if(nestGraphics != null) { nestGraphics.purge(); }
-			 
+		if (currentPartType != type) {
+			if (nestGraphics != null) {
+				nestGraphics.purge();
+			}
+
 			currentPartType = type;
 			countRequest = 0;
 			count = 0;
@@ -89,14 +93,14 @@ public class NestAgent extends Agent implements Nest {
 		 * try { animation.acquire(); } catch (InterruptedException e) { // TODO
 		 * Auto-generated catch block e.printStackTrace(); }
 		 */
-		synchronized(currentParts) {
-		for (MyPart part : currentParts) {
-			if (part.part.equals(p)) {
-				print("found part");
-				currentParts.remove(part);
-				return;
+		synchronized (currentParts) {
+			for (MyPart part : currentParts) {
+				if (part.part.equals(p)) {
+					print("found part");
+					currentParts.remove(part);
+					return;
+				}
 			}
-		}
 		}
 		count--;
 		countRequest--;
@@ -107,48 +111,48 @@ public class NestAgent extends Agent implements Nest {
 	public void msgDoneTakingParts() {
 		print("Received msgDoneTakingParts");
 		takingParts = false;
-		stateChanged();
+		// stateChanged();
 	}
 
 	@Override
 	public void msgReceivePartDone() {
 		print("Received msgReceivePartDone from graphics");
-		animation.release();
-		stateChanged();
+		// animation.release();
+		// stateChanged();
 	}
 
 	@Override
 	public void msgGivePartToPartsRobotDone() {
 		print("Received msgGivePartToPartsRobotDone from graphics");
-		// animation.release();
-		stateChanged();
+		animation.release();
+		// stateChanged();
 	}
 
 	@Override
 	public void msgPurgingDone() {
 		print("Received msgPurgingDone from graphics");
 		animation.release();
-		stateChanged();
+		// stateChanged();
 	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		synchronized(requestList) {
-		for (PartType requestedPart : requestList) {
-			if (countRequest < full) {
-				getParts(requestedPart);
-				return true;
+		synchronized (requestList) {
+			for (PartType requestedPart : requestList) {
+				if (countRequest < full) {
+					getParts(requestedPart);
+					return true;
+				}
 			}
 		}
-		}
-		synchronized(currentParts) {
-		for (MyPart currentPart : currentParts) {
-			if (currentPart.status == NestStatus.IN_NEST) {
-				moveToPosition(currentPart.part);
-				return true;
+		synchronized (currentParts) {
+			for (MyPart currentPart : currentParts) {
+				if (currentPart.status == NestStatus.IN_NEST) {
+					moveToPosition(currentPart.part);
+					return true;
+				}
 			}
-		}
 		}
 		if (count == full && takingParts == false) {
 			nestFull();
@@ -158,6 +162,7 @@ public class NestAgent extends Agent implements Nest {
 			updateParts();
 			return true;
 		}
+
 		return false;
 	}
 
@@ -177,12 +182,12 @@ public class NestAgent extends Agent implements Nest {
 			// TODO
 			nestGraphics.receivePart(part.partGraphics);
 		}
-		try {
-			animation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// try {
+		// animation.acquire();
+		// } catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 
 		for (MyPart currentPart : currentParts) {
 			if (currentPart.part == part) {
@@ -230,20 +235,20 @@ public class NestAgent extends Agent implements Nest {
 
 	public List<Part> getParts() {
 		List<Part> parts = new ArrayList<Part>();
-		synchronized(currentParts) {
-		for (MyPart p : currentParts) {
-			parts.add(p.part);
-		}
+		synchronized (currentParts) {
+			for (MyPart p : currentParts) {
+				parts.add(p.part);
+			}
 		}
 		return parts;
 	}
 
 	public ArrayList<PartType> getTypesOfParts() {
 		ArrayList<PartType> types = new ArrayList<PartType>();
-		synchronized(currentParts) {
-		for (MyPart p : currentParts) {
-			types.add(p.part.type);
-		}
+		synchronized (currentParts) {
+			for (MyPart p : currentParts) {
+				types.add(p.part.type);
+			}
 		}
 		return types;
 	}
@@ -251,7 +256,8 @@ public class NestAgent extends Agent implements Nest {
 	// HACK for v0 only
 	public void FillWithParts() {
 		for (int i = 1; i < full; i++) {
-			currentParts.add(new MyPart(new Part(Constants.DEFAULT_PARTTYPES.get(0))));
+			currentParts.add(new MyPart(new Part(Constants.DEFAULT_PARTTYPES
+					.get(0))));
 		}
 	}
 

@@ -71,7 +71,7 @@ public class FactoryProductionManagerPanel extends OverlayPanel implements Actio
 		defaultComboBox = (DefaultComboBoxModel)kitComboBox.getModel();
 		
 		// TODO: REMOVE - FOR TESTING ONLY
-		kitConfigs = (ArrayList<KitConfig>) Constants.DEFAULT_KITCONFIGS.clone();
+		kitConfigs = (ArrayList<KitConfig>) Constants.DEFAULT_KITCONFIG.clone();
 		
 		for (int i = 0; i < kitConfigs.size(); i++) {
 			kitComboBox.addItem(kitConfigs.get(i).getName());

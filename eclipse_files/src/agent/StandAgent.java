@@ -285,6 +285,7 @@ public class StandAgent extends Agent implements Stand {
 			partsrobot.msgUseThisKit(mk.kit); // THIS DOESN'T WORK YET
 
 			// For testing, assume parts robot finishes after 1s
+
 			timer.schedule(new TimerTask() {
 				@Override
 				public void run() {

@@ -38,18 +38,19 @@ public abstract class Constants {
 	public static final int STAND_COUNT = 3;
 
 	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(
-			Arrays.asList(new PartType("1", 1, "Test"), new PartType("2", 2,
-					"TestAB"), new PartType("3"), new PartType("4"),
-					new PartType("5", 3, "More Test")/*
-													 * , new PartType("6", 3,
-													 * "Hello"), new
-													 * PartType("7"), new
-													 * PartType("8")
-													 */));
+			Arrays.asList(new PartType("1", 1, "Type1"), new PartType("2", 2,
+					"Type2"), new PartType("3", 3, "Type3"), new PartType("4",
+					4, "Type4"), new PartType("5", 5, "Type5"), new PartType(
+					"6", 6, "Type6"), new PartType("7", 7, "Type7"),
+					new PartType("8", 8, "Type8")));
 
-	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(
-			Arrays.asList(new KitConfig("Default Kit", new PartType("A"),
-					new PartType("B"), new PartType("C"), new PartType("D"))));
+	public static final ArrayList<KitConfig> DEFAULT_KITCONFIG = new ArrayList<KitConfig>(
+			Arrays.asList(new KitConfig("Default Kit", new PartType("1", 1,
+					"Type1"), new PartType("2", 2, "Type2"), new PartType("3",
+					3, "Type3"), new PartType("4", 4, "Type4"), new PartType(
+					"5", 5, "Type5"), new PartType("6", 6, "Type6"),
+					new PartType("7", 7, "Type7"),
+					new PartType("8", 8, "Type8"))));
 
 	// DEVICE START LOCATIONS
 	// ==================================
@@ -348,4 +349,3 @@ public abstract class Constants {
 	public static String DEFAULT_ENCODING = "ISO-8859-1";
 
 }
-

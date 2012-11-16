@@ -330,7 +330,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		print("Got permit");
 
 		// For testing, assume camera finishes after .1s
-
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
@@ -339,7 +338,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 			}
 		}, 1000);
 
-		// camera.msgInspectKit(mk.kit);
+		camera.msgInspectKit(mk.kit);
 
 		stand.msgMovedToInspectionArea(mk.kit, mk.location);
 		stateChanged();

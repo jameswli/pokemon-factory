@@ -70,23 +70,16 @@ public class MockGraphics extends Agent implements CameraGraphics,
 		// conveyorgraphics = new DeviceGraphics.ConveyorGraphics(null);
 		// kitrobotgraphics = new DeviceGraphics.KitRobotGraphics(null);
 
-		/*camera = new CameraAgent("camera");
-		conveyor = new ConveyorAgent("conveyor");
-		feeder = new FeederAgent("feeder");
-		gantry = new GantryAgent("gantry");
-		kitrobot = new KitRobotAgent("kitrobot");
-		lane = new LaneAgent("lane");
-		nest = new NestAgent("nest");
-		// partsrobot = new PartsRobotAgent();
-
-		camera.startThread();
-		conveyor.startThread();
-		feeder.startThread();
-		gantry.startThread();
-		kitrobot.startThread();
-		lane.startThread();
-		nest.startThread();
-		// partsrobot.startThread();*/
+		/*
+		 * camera = new CameraAgent("camera"); conveyor = new
+		 * ConveyorAgent("conveyor"); feeder = new FeederAgent("feeder"); gantry
+		 * = new GantryAgent("gantry"); kitrobot = new
+		 * KitRobotAgent("kitrobot"); lane = new LaneAgent("lane"); nest = new
+		 * NestAgent("nest"); // partsrobot = new PartsRobotAgent();
+		 * camera.startThread(); conveyor.startThread(); feeder.startThread();
+		 * gantry.startThread(); kitrobot.startThread(); lane.startThread();
+		 * nest.startThread(); // partsrobot.startThread();
+		 */
 
 	}
 
@@ -95,20 +88,19 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 		print("PartsRobotGraphics received message msgpickupPart");
 
-		print("PartsRobotGraphics sending message msgPickUpPartDone() to partsrobot after 100ms");
-		 partsrobot.msgPickUpPartDone();
+		print("PartsRobotGraphics sending message msgPickUpPartDone() to partsrobot");
+		partsrobot.msgPickUpPartDone();
 
 	}
 
 	@Override
 	public void givePartToPartsRobot(PartGraphics part) {
 		// TODO Auto-generated method stub
-
+		// No acquire
 	}
 
 	@Override
 	public void receivePart(PartGraphics part) {
-		
 
 	}
 
@@ -121,7 +113,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	@Override
 	public void msgPlaceKitOnStand(KitGraphics kit, int location) {
 		print("KitRobotGraphics received message msgPlaceKitOnStand");
-		print("KitRobotGraphics sending message msgPlaceKitOnStandDone() to KitRobot after 100ms");
+		print("KitRobotGraphics sending message msgPlaceKitOnStandDone() to KitRobot");
 		kitrobot.msgPlaceKitOnStandDone();
 
 	}
@@ -129,14 +121,14 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	@Override
 	public void msgPlaceKitInInspectionArea(KitGraphics kit) {
 		print("KitRobotGraphics received message placeKitInInspectionArea");
-		print("KitRobotGraphics sending message placeKitInInspectionAreaDone() to KitRobot after 100ms");
+		print("KitRobotGraphics sending message placeKitInInspectionAreaDone() to KitRobot");
 		kitrobot.msgPlaceKitInInspectionAreaDone();
 	}
 
 	@Override
 	public void msgPlaceKitOnConveyor() {
 		print("KitRobotGraphics received message msgPlaceKitOnConveyor");
-		print("KitRobotGraphics sending message placeKitOnConveyorDone() to KitRobot after 100ms");
+		print("KitRobotGraphics sending message placeKitOnConveyorDone() to KitRobot");
 		kitrobot.msgPlaceKitOnConveyorDone();
 	}
 
@@ -174,7 +166,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	public void msgBringEmptyKit(KitGraphics kit) {
 		print("ConveyorGraphics received message msgBringEmptyKit");
 
-		print("ConveyorGraphics sending message msgBringEmptyKitDone() to conveyor after 100ms");
+		print("ConveyorGraphics sending message msgBringEmptyKitDone() to conveyor");
 		conveyor.msgBringEmptyKitDone();
 
 	}
@@ -183,14 +175,14 @@ public class MockGraphics extends Agent implements CameraGraphics,
 	public void msgGiveKitToKitRobot(KitGraphics kit) {
 		print("ConveyorGraphics received message msgGiveKitToKitRobot");
 
-		print("ConveyorGraphics sending message msgGiveKitToKitRobotDone() to conveyor after 100ms");
+		print("ConveyorGraphics sending message msgGiveKitToKitRobotDone() to conveyor");
 		conveyor.msgGiveKitToKitRobotDone();
 	}
 
 	@Override
 	public void msgReceiveKit(KitGraphics kit) {
 		print("ConveyorGraphics received message msgReceiveKit");
-		print("ConveyorGraphics sending message msgReceiveKitDone() to conveyor after 100ms");
+		print("ConveyorGraphics sending message msgReceiveKitDone() to conveyor");
 		conveyor.msgReceiveKitDone();
 	}
 
@@ -202,7 +194,6 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -300,7 +291,7 @@ public class MockGraphics extends Agent implements CameraGraphics,
 
 		print("PartsRobotGraphics received message msggivePartToKit");
 
-		print("PartsrobotGraphics sending message msgGivePartToKitDone() to partsrobot after 100ms");
+		print("PartsrobotGraphics sending message msgGivePartToKitDone() to partsrobot");
 		partsrobot.msgGivePartToKitDone();
 
 	}
