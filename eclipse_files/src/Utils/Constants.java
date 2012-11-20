@@ -27,7 +27,7 @@ public abstract class Constants {
 	// CLIENT SETTINGS
 	// ==================================
 
-	public static final int TIMER_DELAY = 30; //50
+	public static final int TIMER_DELAY = 30; // 50
 
 	public static final Image CLIENT_BG_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "bg.jpg");
@@ -41,18 +41,26 @@ public abstract class Constants {
 	public static final int STAND_COUNT = 3;
 
 	public static final ArrayList<PartType> DEFAULT_PARTTYPES = new ArrayList<PartType>(
-			Arrays.asList(new PartType("1", 1, "Type1"), 
-					new PartType("2", 2, "Type2"), new PartType("3", 3, "Type3"), 
-					new PartType("4", 4, "Type4"), new PartType("5", 5, "Type5"),
-					new PartType("6", 6, "Type6"), new PartType("7", 7, "Type7"),
-					new PartType("8", 8, "Type8"), new PartType("9", 9, "Type9"),
-					new PartType("10", 10, "Type10")));
+			Arrays.asList(new PartType("1", 1, "Type1"), new PartType("2", 2,
+					"Type2"), new PartType("3", 3, "Type3"), new PartType("4",
+					4, "Type4"), new PartType("5", 5, "Type5"), new PartType(
+					"6", 6, "Type6"), new PartType("7", 7, "Type7"),
+					new PartType("8", 8, "Type8"),
+					new PartType("9", 9, "Type9"), new PartType("10", 10,
+							"Type10")));
 
 	public static final ArrayList<KitConfig> DEFAULT_KITCONFIGS = new ArrayList<KitConfig>(
-			Arrays.asList(new KitConfig("Simple Kit", 
-					DEFAULT_PARTTYPES.get(0),DEFAULT_PARTTYPES.get(1),
-					DEFAULT_PARTTYPES.get(4),DEFAULT_PARTTYPES.get(5)
-					)));
+			Arrays.asList(
+
+			new KitConfig("Simple Kit", DEFAULT_PARTTYPES.get(0),
+					DEFAULT_PARTTYPES.get(1), DEFAULT_PARTTYPES.get(4),
+					DEFAULT_PARTTYPES.get(5)),
+
+			new KitConfig("8 Type Kit", DEFAULT_PARTTYPES.get(0),
+					DEFAULT_PARTTYPES.get(1), DEFAULT_PARTTYPES.get(2),
+					DEFAULT_PARTTYPES.get(3), DEFAULT_PARTTYPES.get(4),
+					DEFAULT_PARTTYPES.get(5), DEFAULT_PARTTYPES.get(6),
+					DEFAULT_PARTTYPES.get(7))));
 
 	// DEVICE START LOCATIONS
 	// ==================================
@@ -61,9 +69,11 @@ public abstract class Constants {
 	public static final int FEEDER_Y_STEP = 150;
 
 	public static final Location KIT_ROBOT_LOC = new Location(75, 192.5);
-	public static final Location KIT_ROBOT_ROTATION_AXIS_LOC = new Location(112.5,37.5);
-	public static final Location KIT_ROBOT_KIT_LOC = new Location(0,200);
-	public static final Location KIT_ROBOT_KIT_ROTATION_AXIS_LOC = new Location(180,40);
+	public static final Location KIT_ROBOT_ROTATION_AXIS_LOC = new Location(
+			112.5, 37.5);
+	public static final Location KIT_ROBOT_KIT_LOC = new Location(0, 200);
+	public static final Location KIT_ROBOT_KIT_ROTATION_AXIS_LOC = new Location(
+			180, 40);
 	public static final Location CONVEYOR_LOC = new Location(0, 80); // 185
 	public static final Location KIT_LOC = new Location(150, 200);
 	public static final Location PARTS_ROBOT_LOC = new Location(250, 450);
@@ -136,21 +146,21 @@ public abstract class Constants {
 
 	// Bin Images
 	public static final String BIN_IMAGE_PATH = IMAGE_PATH + "bin_";
-	
+
 	public static final Image BIN_EMPTY_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage("");
 
 	// Kit & Inspection Stand Images // TODO: add actual images
 	public static final Image STAND_IMAGE = Toolkit.getDefaultToolkit()
 			.getImage(IMAGE_PATH + "stand.png");
-	
+
 	// IMAGE SIZES
 	public static final int PART_WIDTH = 20, PART_HEIGHT = 50;
 	public static final int PART_OFFSET = 19;
-	
+
 	public static final int LANE_LENGTH = 210;
 	public static final int LANE_BEG_X = 850, LANE_END_X = 640;
-	
+
 	public static final int NEST_WIDTH = 75, NEST_HEIGHT = 70;
 
 	// TARGET NAMES
@@ -345,17 +355,24 @@ public abstract class Constants {
 	public static final String GANTRY_ROBOT_MNGR_CLIENT = "GantryRobotMngr";
 	public static final String KIT_ASSEMBLY_MNGR_CLIENT = "KitAssemblyMngr";
 	public static final String LANE_MNGR_CLIENT = "LaneMngr";
-	
+
 	// UI TOOLS
 	// ==================================
 
-	public static final Border PADDING = BorderFactory.createEmptyBorder(20, 20, 20, 20);
-	public static final Border FIELD_PADDING = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-	public static final Border MEDIUM_PADDING = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-	public static final Border LIGHT_BOTTOM_PADDING = BorderFactory.createEmptyBorder(0, 0, 5, 0);
-	public static final Border BOTTOM_PADDING = BorderFactory.createEmptyBorder(0, 0, 20, 0);
-	public static final Border TOP_PADDING = BorderFactory.createEmptyBorder(20, 0, 5, 0);
-	public static final Border VERTICAL_PADDING = BorderFactory.createEmptyBorder(10, 0, 10, 0);
+	public static final Border PADDING = BorderFactory.createEmptyBorder(20,
+			20, 20, 20);
+	public static final Border FIELD_PADDING = BorderFactory.createEmptyBorder(
+			5, 5, 5, 5);
+	public static final Border MEDIUM_PADDING = BorderFactory
+			.createEmptyBorder(10, 10, 10, 10);
+	public static final Border LIGHT_BOTTOM_PADDING = BorderFactory
+			.createEmptyBorder(0, 0, 5, 0);
+	public static final Border BOTTOM_PADDING = BorderFactory
+			.createEmptyBorder(0, 0, 20, 0);
+	public static final Border TOP_PADDING = BorderFactory.createEmptyBorder(
+			20, 0, 5, 0);
+	public static final Border VERTICAL_PADDING = BorderFactory
+			.createEmptyBorder(10, 0, 10, 0);
 
 	// Agent constants for StringUtil
 	/** The number of milliseconds in a second */

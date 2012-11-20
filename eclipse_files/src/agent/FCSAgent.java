@@ -68,7 +68,7 @@ public class FCSAgent extends Agent implements FCS {
 		print("Received new order");
 		orders.add(o);
 		if (fcs != null) {
-			fcs.updateQueue((ArrayList<Order>)orders);
+			fcs.updateQueue((ArrayList<Order>) orders);
 		}
 		if (state == myState.PENDING) {
 			state = myState.STARTED;
@@ -78,16 +78,18 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void msgStopMakingKit(Order o) {
-		//synchronized (orders) {
+		synchronized (orders) {
 			for (Order order : orders) {
 				if (order.equals(o)) {
 					o.cancel = true;
 					if (fcs != null) {
-						fcs.updateQueue((ArrayList<Order>)orders);
+						fcs.updateQueue((ArrayList<Order>) orders);
 					}
 				}
 			}
-		//}
+		}
+
+		resetCell(o);
 		stateChanged();
 	}
 
@@ -107,24 +109,25 @@ public class FCSAgent extends Agent implements FCS {
 	public void msgOrderFinished() {
 		numOrdersFinished++;
 		System.out.print("Order " + numOrdersFinished + " Done!!!!");
-		//synchronized (orders) {
+		synchronized (orders) {
 			for (Order o : orders) {
 				if (o.state == Order.orderState.ORDERED) {
 					orders.remove(o);
 					if (fcs != null) {
-						fcs.updateQueue((ArrayList<Order>)orders);
+						fcs.updateQueue((ArrayList<Order>) orders);
 					}
+					resetCell(o);
 					break;
 				}
 			}
-		//}
+		}
 		state = myState.STARTED;
 		stateChanged();
 	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		// print("I'm scheduling stuff");
+		print("I'm scheduling stuff");
 		if (state == myState.STARTED) {
 			if (!binsSet && gantry != null) {
 				initializeBins();
@@ -159,7 +162,7 @@ public class FCSAgent extends Agent implements FCS {
 		o.state = Order.orderState.ORDERED;
 		state = myState.LOADED;
 		if (fcs != null) {
-			fcs.updateQueue((ArrayList<Order>)orders);
+			fcs.updateQueue((ArrayList<Order>) orders);
 		}
 
 		int k = 0;
@@ -197,9 +200,19 @@ public class FCSAgent extends Agent implements FCS {
 			orders.remove(o);
 		}
 		if (fcs != null) {
-			fcs.updateQueue((ArrayList<Order>)orders);
+			fcs.updateQueue((ArrayList<Order>) orders);
 		}
+
+		resetCell(o);
 		stateChanged();
+	}
+
+	public void resetCell(Order o) {
+		camera.msgResetSelf();
+		print("NEST SIZE: " + nests.size());
+		for (int i = 0; i < 8; i++) {
+			nests.get(i).msgPurgeSelf();
+		}
 	}
 
 	public void initializeBins() {
@@ -271,7 +284,7 @@ public class FCSAgent extends Agent implements FCS {
 
 	@Override
 	public void setGraphicalRepresentation(DeviceGraphics fcs) {
-	    // not used, Use setFCS instead
+		// not used, Use setFCS instead
 	}
 
 	public DeviceGraphics getGraphicalRepresentation() {

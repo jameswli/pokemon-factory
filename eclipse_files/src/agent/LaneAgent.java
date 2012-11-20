@@ -146,7 +146,6 @@ public class LaneAgent extends Agent implements Lane {
 
 	public void purgeSelf() {
 		print("Purging self");
-		state = LaneStatus.FILLING;
 		requestList = Collections.synchronizedList(new ArrayList<PartType>());
 		currentParts = Collections.synchronizedList(new ArrayList<MyPart>());
 		if (laneGUI != null) {
@@ -159,6 +158,7 @@ public class LaneAgent extends Agent implements Lane {
 			}
 		}
 		nest.msgLanePurgeDone();
+		state = LaneStatus.FILLING;
 		stateChanged();
 	}
 
@@ -215,6 +215,12 @@ public class LaneAgent extends Agent implements Lane {
 
 	public void thisFeederAgent(FeederAgent feeder) {
 		this.feeder = feeder;
+	}
+
+	@Override
+	public void msgGiveMePart() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

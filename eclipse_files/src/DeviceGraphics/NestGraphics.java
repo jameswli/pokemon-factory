@@ -3,14 +3,13 @@ package DeviceGraphics;
 import java.util.ArrayList;
 import java.util.Map;
 
-import factory.PartType;
-
 import Networking.Request;
 import Networking.Server;
 import Utils.Constants;
 import Utils.Location;
 import agent.Agent;
 import agent.NestAgent;
+import factory.PartType;
 
 /**
  * This class represents the graphics logic for a nest.
@@ -18,7 +17,7 @@ import agent.NestAgent;
  */
 public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		DeviceGraphics {
-	
+
 	// max number of parts this Nest holds
 	private static final int MAX_PARTS = 8;
 	// y-coordinates of the nest0
@@ -42,9 +41,10 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		server = s;
 		nestID = nid;
 		nestAgent = (NestAgent) agent;
-		
+
 		partsInNest = new ArrayList<PartGraphics>(MAX_PARTS);
-		location = new Location(Constants.LANE_END_X - Constants.NEST_WIDTH, NEST_Y + nestID * NEST_Y_INCR);
+		location = new Location(Constants.LANE_END_X - Constants.NEST_WIDTH,
+				NEST_Y + nestID * NEST_Y_INCR);
 		generatePartLocations();
 	}
 
@@ -55,22 +55,24 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		partLocs = new ArrayList<Location>(MAX_PARTS);
 		for (int i = 0; i < MAX_PARTS; i++) {
 			if (i % 2 == 0) { // top row
-				partLocs.add(new Location((location.getX() + (i / 2)
-						* Constants.PART_WIDTH), (location.getY() - Constants.PART_OFFSET)));
+				partLocs.add(new Location(location.getX() + i / 2
+						* Constants.PART_WIDTH, location.getY()
+						- Constants.PART_OFFSET));
 			} else { // bottom row
-				partLocs.add(new Location((location.getX() + (i / 2)
-						* Constants.PART_WIDTH),
-						(location.getY() + BOTTOM_ROW_OFFSET - Constants.PART_OFFSET)));
+				partLocs.add(new Location(location.getX() + i / 2
+						* Constants.PART_WIDTH, location.getY()
+						+ BOTTOM_ROW_OFFSET - Constants.PART_OFFSET));
 			}
 		}
 	}
-	
+
 	/**
 	 * Sets/updates the locations of the parts in the nest.
 	 */
 	private void setPartLocations() {
 		// whichever is less
-		int min = (MAX_PARTS < partsInNest.size()) ? MAX_PARTS : partsInNest.size();
+		int min = MAX_PARTS < partsInNest.size() ? MAX_PARTS : partsInNest
+				.size();
 		for (int i = 0; i < min; i++) {
 			partsInNest.get(i).setLocation(partLocs.get(i));
 		}
@@ -86,14 +88,14 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	}
 
 	/**
-		 * @param
-		 */
-		@Override
-		public void givePartToPartsRobot(PartGraphics pg) {
-			// TODO: V2: get index of the part removed, if not 0
-			server.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND,
-						Constants.NEST_TARGET + nestID, pg));
-		}
+	 * @param
+	 */
+	@Override
+	public void givePartToPartsRobot(PartGraphics pg) {
+		// TODO: V2: get index of the part removed, if not 0
+		server.sendData(new Request(Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND,
+				Constants.NEST_TARGET + nestID, pg));
+	}
 
 	/**
 	 * @param -
@@ -103,7 +105,8 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 		partsInNest.add(pg);
 		pg.setLocation(partLocs.get(partsInNest.size() - 1));
 		PartType type = pg.getPartType();
-		System.out.println("NEST" + nestID + " RECEIVING PART " + partsInNest.size());
+		System.out.println("NEST" + nestID + " RECEIVING PART "
+				+ partsInNest.size());
 		server.sendData(new Request(Constants.NEST_RECEIVE_PART_COMMAND,
 				Constants.NEST_TARGET + nestID, type));
 	}
@@ -114,20 +117,23 @@ public class NestGraphics implements GraphicsInterfaces.NestGraphics,
 	 */
 	@Override
 	public void receiveData(Request req) {
-		if (req.getCommand().equals(Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX)) {
+		if (req.getCommand().equals(
+				Constants.NEST_RECEIVE_PART_COMMAND + Constants.DONE_SUFFIX)) {
 			nestAgent.msgReceivePartDone();
-			
+
 		} else if (req.getCommand().equals(
-			Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND + Constants.DONE_SUFFIX)) {
+				Constants.NEST_GIVE_TO_PART_ROBOT_COMMAND
+						+ Constants.DONE_SUFFIX)) {
 			partsInNest.remove(0);
 			setPartLocations();
 			nestAgent.msgGivePartToPartsRobotDone();
-			
+
 		} else if (req.getCommand().equals(
-			Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
+				Constants.NEST_PURGE_COMMAND + Constants.DONE_SUFFIX)) {
+			System.out.println("[NestGraphics] Sending purgeDone");
 			partsInNest.clear();
 			nestAgent.msgPurgingDone();
-		} 
+		}
 	}
 
 	/**

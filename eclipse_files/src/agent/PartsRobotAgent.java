@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Semaphore;
 
 import DeviceGraphics.DeviceGraphics;
+import DeviceGraphics.PartGraphics;
 import GraphicsInterfaces.PartsRobotGraphics;
 import agent.data.Kit;
 import agent.data.Part;
@@ -95,6 +96,17 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		}
 
 		status = PartsRobotStatus.IDLE;
+
+		timer.scheduleAtFixedRate(new TimerTask() {
+			// Fires every 3.001 seconds.
+			@Override
+			public void run() {
+				print("Waking up");
+				stateChanged();
+			}
+		}, System.currentTimeMillis(), 3000);
+
+		time.setTime(System.currentTimeMillis());
 	}
 
 	/*
@@ -240,27 +252,19 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 					}
 				}
 			}
-		} else {
-			status = PartsRobotStatus.PLACING;
-		}
-
-		if (System.currentTimeMillis() - time.getTime() > 3000) {
+		} else if (System.currentTimeMillis() - time.getTime() > 3000) {
 			// Last rule is to place parts if the parts robot has been idle
 			// too long
+			print("Assessing...");
+			if (!allArmsEmpty()) {
+				status = PartsRobotStatus.PLACING;
+			}
 			time.setTime(System.currentTimeMillis());
+			return true;
+		} else {
 			status = PartsRobotStatus.PLACING;
 			return true;
 		}
-
-		timer.schedule(new TimerTask() {
-			// hack to force the partsrobot to attempt to place parts
-			// sleep. Fires after 3.001 seconds.
-			@Override
-			public void run() {
-				stateChanged();
-			}
-		}, 3001);
-
 		/*
 		 * Tried all rules and found no actions to fire. Return false to the
 		 * main loop of abstract base class Agent and wait.
@@ -282,7 +286,8 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 		arm.part = part;
 		// Tells the graphics to pickup the part
 		if (partsRobotGraphics != null) {
-			partsRobotGraphics.pickUpPart(part.partGraphics);
+			PartGraphics pg = new PartGraphics(arm.part.partGraphics);
+			partsRobotGraphics.pickUpPart(pg);
 			try {
 				// print("Blocking");
 				animation.acquire();
@@ -307,8 +312,10 @@ public class PartsRobotAgent extends Agent implements PartsRobot {
 				if (mk.kit.needPart(arm.part) > 0) {
 
 					if (partsRobotGraphics != null) {
-						partsRobotGraphics.givePartToKit(arm.part.partGraphics,
-								mk.kit.kitGraphics);
+						PartGraphics pg = new PartGraphics(
+								arm.part.partGraphics);
+						partsRobotGraphics
+								.givePartToKit(pg, mk.kit.kitGraphics);
 						try {
 							// print("Blocking");
 							animation.acquire();

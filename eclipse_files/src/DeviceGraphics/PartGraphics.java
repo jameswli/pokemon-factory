@@ -2,17 +2,20 @@ package DeviceGraphics;
 
 import java.io.Serializable;
 
-import factory.PartType;
-
 import Utils.Location;
+import factory.PartType;
 
 public class PartGraphics implements Serializable {
 	PartType partType;
 	Location partLocation;
 
-	// PartType????
 	public PartGraphics(PartType type) {
 		partType = type;
+	}
+
+	public PartGraphics(PartGraphics partGraphics) {
+		this.partLocation = partGraphics.partLocation;
+		this.partType = partGraphics.partType;
 	}
 
 	public void setLocation(Location newLocation) {

@@ -78,4 +78,16 @@ public class MockNest extends MockAgent implements Nest {
 
 	}
 
+	@Override
+	public void msgPartReady() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void msgPurgeSelf() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

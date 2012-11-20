@@ -3,6 +3,8 @@ package agent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import DeviceGraphics.DeviceGraphics;
@@ -22,6 +24,8 @@ public class GantryAgent extends Agent implements Gantry {
 			.synchronizedList(new ArrayList<Bin>());
 	public List<MyFeeder> feeders = Collections
 			.synchronizedList(new ArrayList<MyFeeder>());
+
+	private final Timer timer;
 
 	private GantryGraphics gantryGraphics;
 
@@ -64,7 +68,17 @@ public class GantryAgent extends Agent implements Gantry {
 	public GantryAgent(String name) {
 		super();
 		this.name = name;
-		print("I'm working");
+		// print("I'm working");
+
+		timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			// Fires every 3.001 seconds.
+			@Override
+			public void run() {
+				print("Waking up");
+				stateChanged();
+			}
+		}, System.currentTimeMillis(), 3000);
 	}
 
 	@Override
@@ -77,17 +91,17 @@ public class GantryAgent extends Agent implements Gantry {
 	@Override
 	public void msgINeedParts(PartType type, FeederAgent feeder) {
 		print("Received msgINeedParts from " + feeder.toString());
-		boolean temp = true;
+		boolean found = false;
 		for (MyFeeder currentFeeder : feeders) {
 			if (currentFeeder.getFeeder() == feeder) {
 				// print("found feeder");
 				currentFeeder.requestedType = type;
 				currentFeeder.state = FeederStatus.REQUESTED_PARTS;
-				temp = false;
+				found = true;
 				break;
 			}
 		}
-		if (temp == true) {
+		if (!found) {
 			MyFeeder currentFeeder = new MyFeeder(feeder, type);
 			feeders.add(currentFeeder);
 		}
@@ -164,7 +178,7 @@ public class GantryAgent extends Agent implements Gantry {
 				return true;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	// ACTIONS

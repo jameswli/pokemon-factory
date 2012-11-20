@@ -202,7 +202,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 		// Kit needs to be shipped out of the kitting cell
 		synchronized (myKits) {
-			// print("Acquiring in scheduler");
 			for (MyKit mk : myKits) {
 				if (mk.KS == KitStatus.INSPECTED) {
 					mk.KS = KitStatus.SHIPPED;
@@ -215,7 +214,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 
 		// Kit needs to be inspected
 		synchronized (myKits) {
-			print("Acquiring in scheduler");
 			for (MyKit mk : myKits) {
 				if (mk.KS == KitStatus.MARKED_FOR_INSPECTION
 						&& standPositions.get(0)) {
@@ -230,7 +228,6 @@ public class KitRobotAgent extends Agent implements KitRobot {
 		// AwaitingPickup is the default state for MyKit which is
 		// created when conveyor sends hereIsKit
 		synchronized (myKits) {
-			// print("Acquiring in scheduler");
 			for (MyKit mk : myKits) {
 				if (mk.KS == KitStatus.AWAITING_PICKUP
 						&& (standPositions.get(1) || standPositions.get(2))) {
@@ -249,6 +246,7 @@ public class KitRobotAgent extends Agent implements KitRobot {
 				&& state != KitRobotState.HOLDING_KIT
 				&& (standPositions.get(1) || standPositions.get(2))) {
 			kitRequested = true;
+			print("Requesting kit");
 			conveyor.msgGiveMeKit();
 			// return true;
 		}

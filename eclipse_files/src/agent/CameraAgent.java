@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import DeviceGraphics.DeviceGraphics;
@@ -22,13 +23,7 @@ import agent.interfaces.Nest;
  */
 public class CameraAgent extends Agent implements Camera {
 
-	String name;
-
-	public CameraAgent(String name) {
-		super();
-		this.name = name;
-		timer = new Timer();
-	}
+	private final String name;
 
 	public List<MyNest> nests = Collections
 			.synchronizedList(new ArrayList<MyNest>());
@@ -70,6 +65,21 @@ public class CameraAgent extends Agent implements Camera {
 			this.nest = nest;
 			this.state = NestStatus.NOT_READY;
 		}
+	}
+
+	public CameraAgent(String name) {
+		super();
+		this.name = name;
+
+		timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			// Fires every 3.001 seconds.
+			@Override
+			public void run() {
+				print("Waking up");
+				stateChanged();
+			}
+		}, System.currentTimeMillis(), 3000);
 	}
 
 	/*
@@ -166,10 +176,9 @@ public class CameraAgent extends Agent implements Camera {
 											// is a nest paired with this
 											// one
 					if (nests.get(i).state == NestStatus.READY
-							|| nests.get(i + 1).state == NestStatus.READY) {
+							&& nests.get(i + 1).state == NestStatus.READY) {
 						print("Taking photos of nests");
 						takePictureOfNest(nests.get(i), nests.get(i + 1));
-						// takePictureOfNest(nests.get(i + 1));
 						return true;
 					}
 				}
@@ -246,14 +255,14 @@ public class CameraAgent extends Agent implements Camera {
 			if (guiCamera != null) {
 				guiCamera.takeNestPhoto(n.nest.nestGraphics,
 						n2.nest.nestGraphics);
-				print("Blocking");
+				// print("Blocking");
 				try {
 					animation.acquire();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				print("Got permit");
+				// print("Got permit");
 
 			}
 			stateChanged();
@@ -278,10 +287,6 @@ public class CameraAgent extends Agent implements Camera {
 	@Override
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public List<MyNest> getNests() {

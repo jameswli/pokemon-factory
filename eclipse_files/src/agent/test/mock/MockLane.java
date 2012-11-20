@@ -79,4 +79,10 @@ public class MockLane extends MockAgent implements Lane {
 
 	}
 
+	@Override
+	public void msgGiveMePart() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

@@ -49,7 +49,6 @@ public class FCS {
 	 */
 	public void updateQueue(ArrayList<Order> q) {
 		queue = q;
-		updateQueue();
 	} 
 	
 	public boolean newPart(PartType pt) {

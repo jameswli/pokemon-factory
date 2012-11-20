@@ -12,6 +12,8 @@ public interface Lane {
 	public abstract void msgHereIsPart(Part p);
 	
 	public abstract void msgPurgeParts();
+	
+	public abstract void msgGiveMePart();
 
 	public abstract void msgReceivePartDone(PartGraphics part);
 
